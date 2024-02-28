@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyProClip", "MyProClip\MyProClip.csproj", "{DCD10621-E32E-4C7B-8B66-3B22255677CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip", "MyProClip\MyProClip.csproj", "{DCD10621-E32E-4C7B-8B66-3B22255677CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F} = {33A45777-48F3-40F1-B8E7-0CD7746F137F}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_UnitTest", "MyProClip_UnitTest\MyProClip_UnitTest.csproj", "{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_BLL", "MyProClip_BLL\MyProClip_BLL.csproj", "{33A45777-48F3-40F1-B8E7-0CD7746F137F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_DAL", "MyProClip_DAL\MyProClip_DAL.csproj", "{57CB1DC5-476D-414D-8A60-DF241D52EB83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F} = {33A45777-48F3-40F1-B8E7-0CD7746F137F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,18 @@ Global
 		{DCD10621-E32E-4C7B-8B66-3B22255677CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCD10621-E32E-4C7B-8B66-3B22255677CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCD10621-E32E-4C7B-8B66-3B22255677CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
