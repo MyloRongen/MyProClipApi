@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MyProClip_BLL.Interfaces.Repositories;
+using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Services;
 using MyProClip_DAL.Data;
+using MyProClip_DAL.Repositories;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +42,9 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddScoped<IClipService, ClipService>();
+builder.Services.AddScoped<IClipRepository, ClipRepository>();
 
 builder.Services.AddCors(options =>
 {

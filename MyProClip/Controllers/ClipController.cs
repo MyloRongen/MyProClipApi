@@ -1,21 +1,52 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyProClip.Models;
+using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Models;
 using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ClipController : ControllerBase
     {
-        [HttpGet("get-projects")]
-        [Authorize(Policy = "Bearer")]
+        private readonly IClipService _clipService;
+
+        public ClipController(IClipService clipService)
+        {
+            _clipService = clipService;
+        }
+
+        [HttpGet("get-clips")]
         public async Task<IActionResult> GetClips()
         {
             try
             {
-                int userId = GetUserIdFromClaims();
-                return Ok();
+                string userId = GetUserIdFromClaims();
+
+                List<Clip> clips = await _clipService.GetClipsByUserId(userId);
+
+                List<ClipViewModel> clipViewModels = [];
+
+                foreach (Clip clip in clips)
+                {
+                    ClipViewModel newClip = new()
+                    {
+                        Id = clip.Id,
+                        Title = clip.Title,
+                        Content = clip.Content,
+                        UserName = clip.User.UserName,
+                        Privacy = clip.Privacy,
+                        UpdatedAt = clip.UpdatedAt,
+                        CreatedAt = clip.CreatedAt
+                    };
+
+                    clipViewModels.Add(newClip);
+                }
+
+                return Ok(clipViewModels);
             }
             catch (Exception ex)
             {
@@ -23,16 +54,16 @@ namespace MyProClip.Controllers
             }
         }
 
-        private int GetUserIdFromClaims()
+        private string GetUserIdFromClaims()
         {
             string? userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            if (string.IsNullOrEmpty(userIdString))
             {
-                throw new ArgumentException("User ID not found or invalid.");
+                throw new Exception("User ID not found or invalid.");
             }
 
-            return userId;
+            return userIdString;
         }
     }
 }
