@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
@@ -6,36 +8,31 @@ namespace MyProClip.Controllers
     [ApiController]
     public class ClipController : ControllerBase
     {
-        // GET: api/<ClipController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("get-projects")]
+        [Authorize(Policy = "Bearer")]
+        public async Task<IActionResult> GetClips()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                int userId = GetUserIdFromClaims();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to retrieve Clips: {ex.Message}");
+            }
         }
 
-        // GET api/<ClipController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        private int GetUserIdFromClaims()
         {
-            return "value";
-        }
+            string? userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        // POST api/<ClipController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                throw new ArgumentException("User ID not found or invalid.");
+            }
 
-        // PUT api/<ClipController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ClipController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return userId;
         }
     }
 }
