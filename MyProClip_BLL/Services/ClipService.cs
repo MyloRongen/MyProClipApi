@@ -28,5 +28,15 @@ namespace MyProClip_BLL.Services
 
             return await _clipRepository.GetClipsByUserId(userId);
         }
+
+        public void AddClip(Clip clip)
+        {
+            if (string.IsNullOrWhiteSpace(clip.UserId) || string.IsNullOrWhiteSpace(clip.Title) || string.IsNullOrWhiteSpace(clip.VideoUrl) || string.IsNullOrWhiteSpace(clip.ThumbnailUrl))
+            {
+                throw new ArgumentException("Invalid project data. UserId, Title, video url and thumbnail url are required.");
+            }
+
+            _clipRepository.AddClip(clip);
+        }
     }
 }

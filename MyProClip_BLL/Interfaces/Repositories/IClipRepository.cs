@@ -10,5 +10,6 @@ namespace MyProClip_BLL.Interfaces.Repositories
     public interface IClipRepository
     {
         Task<List<Clip>> GetClipsByUserId(string userId);
+        void AddClip(Clip clip);
     }
 }

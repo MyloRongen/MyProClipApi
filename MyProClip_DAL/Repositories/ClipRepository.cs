@@ -34,5 +34,18 @@ namespace MyProClip_DAL.Repositories
                 throw new Exception("Something went wrong while trying to retrieve the clips.");
             }
         }
+
+        public void AddClip(Clip clip)
+        {
+            try
+            {
+                _dbContext.Clips.Add(clip);
+                _dbContext.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("Something went wrong while trying to add a clip.");
+            }
+        }
     }
 }
