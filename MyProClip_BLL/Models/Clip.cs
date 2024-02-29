@@ -16,12 +16,13 @@ namespace MyProClip_BLL.Models
 
         public string Title { get; set; }
 
-        public string Content { get; set; }
+        public string VideoUrl { get; set; }
+        public string ThumbnailUrl { get; set; }
 
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public IdentityUser User { get; set; }
 
-        public int? CategoryID { get; set; }
+        public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
         public PrivacyType Privacy { get; set; }

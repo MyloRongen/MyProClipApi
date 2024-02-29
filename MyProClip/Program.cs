@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
+using MyProClip_BLL.Interfaces.Repositories;
+using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Services;
 using MyProClip_DAL.Data;
+using MyProClip_DAL.Repositories;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +44,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<IClipService, ClipService>();
+builder.Services.AddScoped<IClipRepository, ClipRepository>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
@@ -60,6 +68,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var thumbnailsProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Thumbnails"));
+var videosProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Videos"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = thumbnailsProvider,
+    RequestPath = "/Thumbnails"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = videosProvider,
+    RequestPath = "/Videos"
+});
 
 app.UseHttpsRedirection();
 
