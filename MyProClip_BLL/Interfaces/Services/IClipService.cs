@@ -10,5 +10,6 @@ namespace MyProClip_BLL.Interfaces.Services
     public interface IClipService
     {
         Task<List<Clip>> GetClipsByUserId(string userId);
+        void AddClip(Clip clip);
     }
 }

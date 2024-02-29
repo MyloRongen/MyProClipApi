@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
@@ -67,6 +68,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var thumbnailsProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Thumbnails"));
+var videosProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Videos"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = thumbnailsProvider,
+    RequestPath = "/Thumbnails"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = videosProvider,
+    RequestPath = "/Videos"
+});
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyProClip_BLL.Enums;
 using MyProClip_BLL.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyProClip.Models
 {
@@ -10,9 +11,13 @@ namespace MyProClip.Models
 
         public string Title { get; set; }
 
-        public string Content { get; set; }
-
         public string? UserName { get; set; }
+
+        [NotMapped]
+        public string? ThumbnailSrc { get; set; }
+
+        [NotMapped]
+        public string? VideoSrc { get; set; }
 
         public PrivacyType Privacy { get; set; }
 
