@@ -26,6 +26,39 @@ namespace MyProClip.Controllers
             _userService = userService;
         }
 
+        [HttpGet("friends")]
+        public async Task<IActionResult> GetFriendships()
+        {
+            try
+            {
+                List<FriendShip> friendships = await _friendshipService.GetFriendsById(GetUserIdFromClaims());
+
+                if (friendships == null)
+                {
+                    return Ok(new { message = "You have no friends, you can make them by adding someone." });
+                }
+
+                List<FriendsViewModel> friendViewModels = [];
+
+                foreach (FriendShip friendship in friendships)
+                {
+                    FriendsViewModel newFriend = new()
+                    {
+                        FriendId = friendship.Id,
+                        FriendName = friendship.User.UserName,
+                    };
+
+                    friendViewModels.Add(newFriend);
+                }
+
+                return Ok(friendViewModels);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost("add-friend")]
         public async Task<IActionResult> CreateFriendship([FromBody] FriendshipViewModel friendshipViewModel)
         {

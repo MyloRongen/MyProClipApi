@@ -101,5 +101,21 @@ namespace MyProClip_DAL.Repositories
                 throw new Exception("Something went wrong while trying to find the friendship.");
             }
         }
+
+        public async Task<List<FriendShip>> GetFriendsById(string userId)
+        {
+            try
+            {
+                return await _dbContext.Friendships
+                    .Where(f => f.FriendId == userId && f.Status == FriendshipStatus.Accepted)
+                    .Include(f => f.User)
+                    .Include(f => f.Friend)
+                    .ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something went wrong while trying to get all friendships.");
+            }
+        }
     }
 }

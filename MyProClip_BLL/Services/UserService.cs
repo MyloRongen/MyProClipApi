@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

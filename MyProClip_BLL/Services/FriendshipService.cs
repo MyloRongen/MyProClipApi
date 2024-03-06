@@ -81,5 +81,15 @@ namespace MyProClip_BLL.Services
 
             await _friendshipRepository.DeleteFriendship(friendship);
         }
+
+        public async Task<List<FriendShip>> GetFriendsById(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("Invalid user.");
+            }
+
+            return await _friendshipRepository.GetFriendsById(userId);
+        }
     }
 }

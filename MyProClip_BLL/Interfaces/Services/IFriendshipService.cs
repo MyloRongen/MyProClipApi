@@ -15,5 +15,6 @@ namespace MyProClip_BLL.Interfaces.Services
         Task AcceptFriendRequest(FriendShip friendship);
         Task<FriendShip?> GetFriendshipByUserId(int friendshipId);
         Task DeleteFriendship(FriendShip friendship);
+        Task<List<FriendShip>> GetFriendsById(string userId);
     }
 }
