@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
+using MyProClip.Hubs;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Services;
@@ -26,6 +27,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -52,6 +55,9 @@ builder.Services.AddScoped<IClipRepository, ClipRepository>();
 
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddCors(options =>
 {
@@ -91,6 +97,8 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseHttpsRedirection();
+
+app.MapHub<ChatHub>("/ChatHub");
 
 app.UseCors();
 

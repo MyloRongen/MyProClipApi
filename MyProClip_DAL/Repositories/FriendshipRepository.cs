@@ -107,7 +107,8 @@ namespace MyProClip_DAL.Repositories
             try
             {
                 return await _dbContext.Friendships
-                    .Where(f => f.FriendId == userId && f.Status == FriendshipStatus.Accepted)
+                    .Where(f => f.FriendId == userId || f.UserId == userId)
+                    .Where(f => f.Status == FriendshipStatus.Accepted)
                     .Include(f => f.User)
                     .Include(f => f.Friend)
                     .ToListAsync();
