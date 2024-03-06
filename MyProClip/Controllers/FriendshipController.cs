@@ -31,6 +31,12 @@ namespace MyProClip.Controllers
         {
             try
             {
+                string userId = GetUserIdFromClaims();
+                if (string.IsNullOrWhiteSpace(userId))
+                {
+                    return BadRequest("User cannot be found!");
+                }
+
                 List<FriendShip> friendships = await _friendshipService.GetFriendsById(GetUserIdFromClaims());
 
                 if (friendships == null)
@@ -42,10 +48,12 @@ namespace MyProClip.Controllers
 
                 foreach (FriendShip friendship in friendships)
                 {
-                    FriendsViewModel newFriend = new()
+                    string? friendName = friendship.UserId == userId ? friendship.Friend.UserName : friendship.User.UserName;
+
+                    FriendsViewModel newFriend = new FriendsViewModel
                     {
                         FriendId = friendship.Id,
-                        FriendName = friendship.User.UserName,
+                        FriendName = friendName
                     };
 
                     friendViewModels.Add(newFriend);
