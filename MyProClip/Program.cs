@@ -44,8 +44,14 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<IClipService, ClipService>();
 builder.Services.AddScoped<IClipRepository, ClipRepository>();
+
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
 builder.Services.AddCors(options =>
 {
