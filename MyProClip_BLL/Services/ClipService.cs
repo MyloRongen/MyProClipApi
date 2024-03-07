@@ -38,5 +38,15 @@ namespace MyProClip_BLL.Services
 
             _clipRepository.AddClip(clip);
         }
+
+        public async Task<Clip?> GetClipById(int clipId)
+        {
+            if (clipId <= 0)
+            {
+                throw new Exception("The clip id couldn't be found!");
+            }
+
+            return await _clipRepository.GetClipById(clipId);
+        }
     }
 }

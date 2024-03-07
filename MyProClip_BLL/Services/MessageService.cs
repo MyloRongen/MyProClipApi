@@ -18,18 +18,21 @@ namespace MyProClip_BLL.Services
             _messageRepository = messageRepository;
         }
 
-        public async Task<Message> CreateMessageAsync(string senderId, string receiverId, string messageString)
+        public async Task<Message> CreateMessageAsync(string senderId, string receiverId, string messageString, int clipId)
         {
             if (string.IsNullOrEmpty(senderId) || string.IsNullOrEmpty(receiverId) || string.IsNullOrEmpty(messageString))
             {
                 throw new ArgumentException("Sender, receiver or the message is unkown.");
             }
 
+            int? actualClipId = clipId == 0 ? null : clipId;
+
             Message message = new()
             {
                 SenderId = senderId,
                 ReceiverId = receiverId,
                 Content = messageString,
+                ClipId = actualClipId,
                 UpdatedAt = DateTime.Now,
                 CreatedAt = DateTime.Now,
             };

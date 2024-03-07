@@ -39,6 +39,7 @@ namespace MyProClip_DAL.Repositories
             {
                 return await _dbContext.Messages
                     .Where(m => (m.SenderId == userId && m.ReceiverId == friendId) || (m.SenderId == friendId && m.ReceiverId == userId))
+                    .Include(m => m.Clip)
                     .ToListAsync();
             }
             catch

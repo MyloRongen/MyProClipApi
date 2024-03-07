@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;
@@ -45,6 +46,18 @@ namespace MyProClip_DAL.Repositories
             catch
             {
                 throw new Exception("Something went wrong while trying to add a clip.");
+            }
+        }
+
+        public async Task<Clip?> GetClipById(int clipId)
+        {
+            try
+            {
+                return await _dbContext.Clips.FindAsync(clipId);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something went wrong while trying to get the clip.");
             }
         }
     }
