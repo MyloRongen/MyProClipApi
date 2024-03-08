@@ -29,6 +29,11 @@ namespace MyProClip_BLL.Services
             return await _clipRepository.GetClipsByUserId(userId);
         }
 
+        public async Task<List<Clip>> GetPublicClips()
+        {
+            return await _clipRepository.GetPublicClips();
+        }
+
         public void AddClip(Clip clip)
         {
             if (string.IsNullOrWhiteSpace(clip.UserId) || string.IsNullOrWhiteSpace(clip.Title) || string.IsNullOrWhiteSpace(clip.VideoUrl) || string.IsNullOrWhiteSpace(clip.ThumbnailUrl))
@@ -47,6 +52,16 @@ namespace MyProClip_BLL.Services
             }
 
             return await _clipRepository.GetClipById(clipId);
+        }
+
+        public async Task DeleteClipAsync(Clip clip)
+        {
+            if (clip == null)
+            {
+                throw new Exception("The clip couldn't be found!");
+            }
+
+            await _clipRepository.DeleteClipAsync(clip);
         }
     }
 }

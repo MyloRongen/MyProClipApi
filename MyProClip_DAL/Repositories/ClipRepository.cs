@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyProClip_BLL.Enums;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;
@@ -36,6 +37,23 @@ namespace MyProClip_DAL.Repositories
             }
         }
 
+        public async Task<List<Clip>> GetPublicClips()
+        {
+            try
+            {
+                List<Clip> clips = await _dbContext.Clips
+                    .Include(c => c.User)
+                    .Where(c => c.Privacy == PrivacyType.Public)
+                    .ToListAsync();
+
+                return clips;
+            }
+            catch
+            {
+                throw new Exception("Something went wrong while trying to retrieve the clips.");
+            }
+        }
+
         public void AddClip(Clip clip)
         {
             try
@@ -58,6 +76,19 @@ namespace MyProClip_DAL.Repositories
             catch (Exception)
             {
                 throw new Exception("Something went wrong while trying to get the clip.");
+            }
+        }
+
+        public async Task DeleteClipAsync(Clip clip)
+        {
+            try
+            {
+                _dbContext.Clips.Remove(clip);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something went wrong while trying to delete a clip.");
             }
         }
     }

@@ -23,6 +23,39 @@ namespace MyProClip.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [HttpGet("get-public-clips")]
+        public async Task<IActionResult> GetPublicClips()
+        {
+            try
+            {
+                List<Clip> clips = await _clipService.GetPublicClips();
+                List<ClipViewModel> clipViewModels = [];
+
+                foreach (Clip clip in clips)
+                {
+                    ClipViewModel newClip = new()
+                    {
+                        Id = clip.Id,
+                        Title = clip.Title,
+                        UserName = clip.User.UserName,
+                        Privacy = clip.Privacy,
+                        ThumbnailSrc = String.Format("{0}://{1}{2}/Thumbnails/{3}", Request.Scheme, Request.Host, Request.PathBase, clip.ThumbnailUrl),
+                        VideoSrc = String.Format("{0}://{1}{2}/Videos/{3}", Request.Scheme, Request.Host, Request.PathBase, clip.VideoUrl),
+                        UpdatedAt = clip.UpdatedAt,
+                        CreatedAt = clip.CreatedAt
+                    };
+
+                    clipViewModels.Add(newClip);
+                }
+
+                return Ok(clipViewModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to retrieve Clips: {ex.Message}");
+            }
+        }
+
         [HttpGet("get-clips")]
         public async Task<IActionResult> GetClips()
         {
@@ -86,6 +119,36 @@ namespace MyProClip.Controllers
                 _clipService.AddClip(newClip);
 
                 return Ok("Clip added successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("delete-clip/{clipId}")]
+        public async Task<IActionResult> DeleteClip(int clipId)
+        {
+            try
+            {
+                Clip? clip = await _clipService.GetClipById(clipId);
+
+                if (clip == null)
+                {
+                    return BadRequest("Clip doesn't exist in the current context.");
+                }
+                else
+                {
+                    if (clip.UserId != GetUserIdFromClaims())
+                    {
+                        return BadRequest("Clip doesn't belong to the user.");
+                    }
+
+                    await _clipService.DeleteClipAsync(clip);
+                    DeleteVideo(clip.VideoUrl);
+                }
+
+                return Ok("Clip was successfully deleted!");
             }
             catch (Exception e)
             {
