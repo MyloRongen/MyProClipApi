@@ -98,9 +98,9 @@ namespace MyProClip.Hubs
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // return exception
+                throw new Exception($"{e.Message}");
             }
         }
 
@@ -142,9 +142,9 @@ namespace MyProClip.Hubs
 
                 var createdMessage = await _messageService.CreateMessageAsync(sender.Id, receiver.Id, message, clipId);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // return exception
+                throw new Exception($"{e.Message}");
             }
         }
     }
