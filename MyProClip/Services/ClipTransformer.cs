@@ -14,7 +14,7 @@ namespace MyProClip.Services
             }
             else
             {
-                string httpPath = "http://localhost:5272";
+                string httpsPath = "https://localhost:8000";
 
                 ClipViewModel newClip = new()
                 {
@@ -22,8 +22,8 @@ namespace MyProClip.Services
                     Title = clip.Title,
                     UserName = clip.User.UserName,
                     Privacy = clip.Privacy,
-                    ThumbnailSrc = String.Format("{0}/Thumbnails/{1}", httpPath, clip.ThumbnailUrl),
-                    VideoSrc = String.Format("{0}/Videos/{1}", httpPath, clip.VideoUrl),
+                    ThumbnailSrc = String.Format("{0}/Thumbnails/{1}", httpsPath, clip.ThumbnailUrl),
+                    VideoSrc = String.Format("{0}/Videos/{1}", httpsPath, clip.VideoUrl),
                     UpdatedAt = clip.UpdatedAt,
                     CreatedAt = clip.CreatedAt
                 };
