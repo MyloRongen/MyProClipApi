@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MyProClip.Models;
+using MyProClip.Services;
 using MyProClip_BLL.Enums;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
@@ -16,11 +17,15 @@ namespace MyProClip.Controllers
     {
         private readonly IClipService _clipService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ImageService _imageService;
+        private readonly VideoService _videoService;
 
         public ClipController(IClipService clipService, IWebHostEnvironment webHostEnvironment)
         {
             _clipService = clipService;
             _webHostEnvironment = webHostEnvironment;
+            _imageService = new ImageService(webHostEnvironment);
+            _videoService = new VideoService(webHostEnvironment);
         }
 
         [HttpGet("get-public-clips")]
@@ -102,8 +107,8 @@ namespace MyProClip.Controllers
                     return BadRequest("No information was given about the clip.");
                 }
 
-                string thumbnailUrl = await SaveImageAsync(clipViewModelRequest.ThumbnailFile);
-                string videoClipUrl = await SaveVideoAsync(clipViewModelRequest.VideoClipFile);
+                string thumbnailUrl = await _imageService.SaveImageAsync(clipViewModelRequest.ThumbnailFile);
+                string videoClipUrl = await _videoService.SaveVideoAsync(clipViewModelRequest.VideoClipFile);
 
                 Clip newClip = new()
                 {
@@ -166,42 +171,6 @@ namespace MyProClip.Controllers
             }
 
             return userIdString;
-        }
-
-
-        [NonAction]
-        public async Task<string> SaveImageAsync(IFormFile thumbnailFile)
-        {
-            Guid myuuid = Guid.NewGuid();
-
-            string thumbnailName = new String(Path.GetFileNameWithoutExtension(thumbnailFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            thumbnailName = thumbnailName + DateTime.Now.ToString("yymmssfff") + myuuid.ToString() + Path.GetExtension(thumbnailFile.FileName);
-            var thumbnailPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Thumbnails", thumbnailName);
-
-            using (var fileStream = new FileStream(thumbnailPath, FileMode.Create))
-            {
-                await thumbnailFile.CopyToAsync(fileStream);
-            }
-
-            return thumbnailName;
-        }
-
-
-        [NonAction]
-        public async Task<string> SaveVideoAsync(IFormFile videoFile)
-        {
-            Guid myuuid = Guid.NewGuid();
-
-            string videoName = new String(Path.GetFileNameWithoutExtension(videoFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            videoName = videoName + DateTime.Now.ToString("yymmssfff") + myuuid.ToString() + Path.GetExtension(videoFile.FileName);
-            var videoPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Videos", videoName);
-
-            using (var fileStream = new FileStream(videoPath, FileMode.Create))
-            {
-                await videoFile.CopyToAsync(fileStream);
-            }
-
-            return videoName;
         }
 
         [NonAction]
