@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyProClip_BLL.Models;
 
-namespace MyProClip_BLL.Models
+namespace MyProClip.Models
 {
-    public class Message
+    public class MessageViewModel
     {
         public int Id { get; set; }
         public string SenderId { get; set; }
@@ -17,7 +13,7 @@ namespace MyProClip_BLL.Models
         public IdentityUser Receiver { get; set; }
 
         public int? ClipId { get; set; }
-        public Clip? Clip { get; set; }
+        public ClipViewModel? Clip { get; set; }
 
         public string Content { get; set; }
 

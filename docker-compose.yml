@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: myproclip-pma
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=user
+      - PMA_PASSWORD=password
+    networks:
+      - myproclip_network
+
+  mysql:
+    image: mysql:latest
+    container_name: myproclip-mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=myproclip
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - myproclip_network
+
+networks:
+  myproclip_network:
+    external: true
+
+volumes:
+  mysql_data:
+    driver: local
