@@ -9,6 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip", "MyProClip\MyPr
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_UnitTest", "MyProClip_UnitTest\MyProClip_UnitTest.csproj", "{6220FFAB-B2A1-4E54-AB2D-D9F3D664DE4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33A45777-48F3-40F1-B8E7-0CD7746F137F} = {33A45777-48F3-40F1-B8E7-0CD7746F137F}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_BLL", "MyProClip_BLL\MyProClip_BLL.csproj", "{33A45777-48F3-40F1-B8E7-0CD7746F137F}"
 EndProject
