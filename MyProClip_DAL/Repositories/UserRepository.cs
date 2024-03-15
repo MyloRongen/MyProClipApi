@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_DAL.Data;
 using System;
@@ -25,9 +26,9 @@ namespace MyProClip_DAL.Repositories
                 IdentityUser? user = await _userManager.FindByNameAsync(username);
                 return user;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to get the user.");
+                throw new UserRetrievalException("Error retrieving user.", ex);
             }
         }
     }

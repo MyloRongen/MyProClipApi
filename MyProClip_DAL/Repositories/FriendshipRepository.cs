@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions.Friendship;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;
@@ -27,9 +28,9 @@ namespace MyProClip_DAL.Repositories
                 _dbContext.Friendships.Add(friendship);
                 await _dbContext.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to add a friend.");
+                throw new FriendshipCreationException("Error creating friendship.", ex);
             }
         }
 
@@ -42,9 +43,9 @@ namespace MyProClip_DAL.Repositories
 
                 return userToFriendExists || friendToUserExists;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while checking if the friendship exists.");
+                throw new FriendshipCheckException("Error checking friendship.", ex);
             }
         }
 
@@ -58,9 +59,9 @@ namespace MyProClip_DAL.Repositories
                     .Include(f => f.Friend)
                     .ToListAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while getting the pending friend requests.");
+                throw new PendingFriendRequestsRetrievalException("Error retrieving pending friend requests.", ex);
             }
         }
 
@@ -71,9 +72,9 @@ namespace MyProClip_DAL.Repositories
                 _dbContext.Friendships.Update(friendship);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while accepting the friend request.");
+                throw new FriendRequestAcceptanceException("Error accepting friend request.", ex);
             }
         }
 
@@ -84,9 +85,9 @@ namespace MyProClip_DAL.Repositories
                 _dbContext.Friendships.Remove(friendship);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while accepting the friend request.");
+                throw new FriendshipDeletionException("Error deleting friendship.", ex);
             }
         }
 
@@ -96,9 +97,9 @@ namespace MyProClip_DAL.Repositories
             {
                 return await _dbContext.Friendships.FindAsync(friendshipId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to find the friendship.");
+                throw new FriendshipRetrievalException("Error retrieving friendship by ID.", ex);
             }
         }
 
@@ -113,9 +114,9 @@ namespace MyProClip_DAL.Repositories
                     .Include(f => f.Friend)
                     .ToListAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to get all friendships.");
+                throw new FriendshipRetrievalException("Error retrieving friends.", ex);
             }
         }
     }
