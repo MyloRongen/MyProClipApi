@@ -1,4 +1,5 @@
 ﻿using Moq;
+using MyProClip_BLL.Exceptions.Message;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
@@ -59,12 +60,12 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void CreateMessageAsync_NullOrEmptyArguments_ThrowsArgumentException()
+        public void CreateMessageAsync_NullOrEmptyArguments_ThrowsInvalidMessageDataException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.CreateMessageAsync(null, "3d27ac2e-9b58-4b81-8c5d-6f470e496a81", "message", 123));
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.CreateMessageAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", null, "message", 123));
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.CreateMessageAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", "3d27ac2e-9b58-4b81-8c5d-6f470e496a81", null, 123));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.CreateMessageAsync(null, "3d27ac2e-9b58-4b81-8c5d-6f470e496a81", "message", 123));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.CreateMessageAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", null, "message", 123));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.CreateMessageAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", "3d27ac2e-9b58-4b81-8c5d-6f470e496a81", null, 123));
         }
 
         [Test]
@@ -95,12 +96,12 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void GetMessagesAsync_NullOrEmptyArguments_ThrowsArgumentException()
+        public void GetMessagesAsync_NullOrEmptyArguments_ThrowsInvalidMessageDataException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.GetMessagesAsync(null, "3d27ac2e-9b58-4b81-8c5d-6f470e496a81"));
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.GetMessagesAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", null));
-            Assert.ThrowsAsync<ArgumentException>(async () => await _messageService.GetMessagesAsync(null, null));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.GetMessagesAsync(null, "3d27ac2e-9b58-4b81-8c5d-6f470e496a81"));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.GetMessagesAsync("1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a", null));
+            Assert.ThrowsAsync<InvalidMessageDataException>(async () => await _messageService.GetMessagesAsync(null, null));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions.Friendship;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
@@ -24,7 +25,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(friendship.UserId) || string.IsNullOrWhiteSpace(friendship.FriendId))
             {
-                throw new ArgumentException("Invalid friend or user.");
+                throw new InvalidFriendshipDataException("Invalid friend or user.");
             }
 
             await _friendshipRepository.CreateFriendship(friendship);
@@ -32,9 +33,14 @@ namespace MyProClip_BLL.Services
 
         public async Task<bool> FriendshipExists(string userId, string friendId)
         {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(friendId))
+            if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentException("Invalid friend or user id.");
+                throw new InvalidUserIdException("Invalid user id.");
+            }
+
+            if (string.IsNullOrWhiteSpace(friendId))
+            {
+                throw new InvalidFriendIdException("Invalid friend id.");
             }
 
             return await _friendshipRepository.FriendshipExists(userId, friendId);
@@ -44,7 +50,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentException("Invalid user.");
+                throw new InvalidUserIdException("Invalid user id.");
             }
 
             return await _friendshipRepository.GetPendingFriendRequests(userId);
@@ -54,7 +60,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(friendship.UserId) || string.IsNullOrWhiteSpace(friendship.FriendId))
             {
-                throw new ArgumentException("Invalid friend or user id.");
+                throw new InvalidFriendshipDataException("Invalid friend or user id.");
             }
 
             friendship.Status = FriendshipStatus.Accepted;
@@ -66,7 +72,7 @@ namespace MyProClip_BLL.Services
         {
             if (friendshipId <= 0)
             {
-                throw new ArgumentException("Invalid friendship id");
+                throw new FriendshipNotFoundException("Invalid friendship id.");
             }
 
             return await _friendshipRepository.GetFriendshipByUserId(friendshipId);
@@ -76,7 +82,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(friendship.UserId) || string.IsNullOrWhiteSpace(friendship.FriendId))
             {
-                throw new ArgumentException("Invalid friend or user id.");
+                throw new InvalidFriendshipDataException("Invalid friend or user id.");
             }
 
             await _friendshipRepository.DeleteFriendship(friendship);
@@ -86,7 +92,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentException("Invalid user.");
+                throw new InvalidUserIdException("Invalid user id.");
             }
 
             return await _friendshipRepository.GetFriendsById(userId);

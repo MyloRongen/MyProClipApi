@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyProClip_BLL.Exceptions.Message;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;
@@ -27,9 +28,9 @@ namespace MyProClip_DAL.Repositories
                 await _dbContext.SaveChangesAsync();
                 return message;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while storing the message!"); ;
+                throw new MessageCreationException("Error creating message.", ex);
             }
         }
 
@@ -42,9 +43,9 @@ namespace MyProClip_DAL.Repositories
                     .Include(m => m.Clip)
                     .ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to retrieve the clips.");
+                throw new MessageRetrievalException("Error retrieving messages.", ex);
             }
         }
     }

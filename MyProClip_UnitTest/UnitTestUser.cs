@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moq;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Services;
@@ -41,15 +42,15 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void FindUserByNameAsync_WithNullOrEmptyUsername_ThrowsArgumentException()
+        public void FindUserByNameAsync_WithNullOrEmptyUsername_ThrowsInvalidUsernameException()
         {
             // Arrange
             string emptyUsername = "";
             string? nullUsername = null;
 
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _userService.FindUserByNameAsync(emptyUsername));
-            Assert.ThrowsAsync<ArgumentException>(async () => await _userService.FindUserByNameAsync(nullUsername));
+            Assert.ThrowsAsync<InvalidUsernameException>(async () => await _userService.FindUserByNameAsync(emptyUsername));
+            Assert.ThrowsAsync<InvalidUsernameException>(async () => await _userService.FindUserByNameAsync(nullUsername));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions;
+using MyProClip_BLL.Exceptions.Clip;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;
@@ -31,9 +33,9 @@ namespace MyProClip_DAL.Repositories
 
                 return clips;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to retrieve the clips.");
+                throw new ClipRetrievalException("Error retrieving clips by user ID.", ex);
             }
         }
 
@@ -48,9 +50,9 @@ namespace MyProClip_DAL.Repositories
 
                 return clips;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to retrieve the clips.");
+                throw new ClipRetrievalException("Error retrieving public clips.", ex);
             }
         }
 
@@ -61,9 +63,9 @@ namespace MyProClip_DAL.Repositories
                 _dbContext.Clips.Add(clip);
                 _dbContext.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to add a clip.");
+                throw new ClipAdditionException("Error adding a clip.", ex);
             }
         }
 
@@ -73,9 +75,9 @@ namespace MyProClip_DAL.Repositories
             {
                 return await _dbContext.Clips.FindAsync(clipId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to get the clip.");
+                throw new ClipRetrievalException("Error retrieving clip by ID.", ex);
             }
         }
 
@@ -86,9 +88,9 @@ namespace MyProClip_DAL.Repositories
                 _dbContext.Clips.Remove(clip);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Something went wrong while trying to delete a clip.");
+                throw new ClipDeletionException("Error deleting a clip.", ex);
             }
         }
     }
