@@ -27,6 +27,7 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
+      - uses: actions/checkout@master
       - uses: goit/setup-resharper@v3
         with:
           version: '2021.2'
