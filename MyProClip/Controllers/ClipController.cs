@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyProClip.Models;
 using MyProClip.Services;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions.Clip;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
 using System.Security.Claims;
@@ -55,10 +57,10 @@ namespace MyProClip.Controllers
 
                 return Ok(clipViewModels);
             }
-            catch (Exception ex)
+            catch (ClipManagerException ex)
             {
-                return BadRequest($"Failed to retrieve Clips: {ex.Message}");
-            }
+                return BadRequest($"Failed to retrieve public clips: {ex.Message}");
+            }       
         }
 
         [HttpGet("get-clips")]
@@ -91,9 +93,17 @@ namespace MyProClip.Controllers
 
                 return Ok(clipViewModels);
             }
-            catch (Exception ex)
+            catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to retrieve Clips: {ex.Message}");
+                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
+            }
+            catch (ClipManagerException ex)
+            {
+                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
             }
         }
 
@@ -125,9 +135,13 @@ namespace MyProClip.Controllers
 
                 return Ok("Clip added successfully");
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to add a clip: {ex.Message}");
+            }
+            catch (ClipManagerException ex)
+            {
+                return BadRequest($"Failed to add a clip: {ex.Message}");
             }
         }
 
@@ -155,9 +169,17 @@ namespace MyProClip.Controllers
 
                 return Ok("Clip was successfully deleted!");
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to delete a clip: {ex.Message}");
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest($"Failed to delete a clip: {ex.Message}");
+            }
+            catch (ClipManagerException ex)
+            {
+                return BadRequest($"Failed to delete a clip: {ex.Message}");
             }
         }
 
@@ -167,7 +189,7 @@ namespace MyProClip.Controllers
 
             if (string.IsNullOrEmpty(userIdString))
             {
-                throw new Exception("User ID not found or invalid.");
+                throw new UserRetrievalException("User ID not found or invalid.");
             }
 
             return userIdString;
