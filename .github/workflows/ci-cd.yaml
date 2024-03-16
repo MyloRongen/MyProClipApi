@@ -27,13 +27,11 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
-      - uses: actions/checkout@master
-      - uses: goit/setup-resharper@v3
+      - name: Inspect
+        uses: florius0/resharper-ci@v0.2.1
         with:
-          version: '2021.2'
-        
-      - name: Run ReSharper Analysis
-        run: ./inspectcode/inspectcode.sh MyProClip.sln --output=resharper_analysis_results.xml
+           solution: './MyProClip.sln'
+           severity: ERROR
 
       - name: Buildx docker
         id: buildx
