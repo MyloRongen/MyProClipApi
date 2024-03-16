@@ -28,9 +28,15 @@ jobs:
         run: dotnet test --no-build --verbosity normal  
 
       - name: Inspect code
-        uses: muno92/resharper_inspectcode@v1
+        uses: JetBrains/ReSharper-InspectCode@v0.3
         with:
-          solutionPath: ./MyProClip.sln
+          solution: ./MyProClip.sln
+          sEverity: ERROR
+
+      # - name: Inspect code
+      #   uses: muno92/resharper_inspectcode@v1
+      #   with:
+      #     solutionPath: ./MyProClip.sln
 
       - name: Buildx docker
         id: buildx
