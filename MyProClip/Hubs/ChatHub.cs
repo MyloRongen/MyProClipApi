@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using MyProClip.Models;
 using MyProClip.Services;
+using MyProClip_BLL.Exceptions.Clip;
+using MyProClip_BLL.Exceptions.Friendship;
+using MyProClip_BLL.Exceptions.Message;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
 using MyProClip_BLL.Services;
@@ -75,13 +79,13 @@ namespace MyProClip.Hubs
             {
                 string? userId = Context?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                IdentityUser? receiver = await _userService.FindUserByNameAsync(receiverName) ?? throw new Exception("Friend not found.");
-                IdentityUser? user = await _userManager.FindByIdAsync(userId) ?? throw new Exception("User not found.");
+                IdentityUser? receiver = await _userService.FindUserByNameAsync(receiverName) ?? throw new UserRetrievalException("Friend not found.");
+                IdentityUser? user = await _userManager.FindByIdAsync(userId) ?? throw new UserRetrievalException("User not found.");
 
                 bool friendshipExists = await _friendshipService.FriendshipExists(receiver.Id, user.Id);
                 if (!friendshipExists)
                 {
-                    throw new Exception("Friendship doesn't exist.");
+                    throw new FriendshipNotFoundException("Friendship doesn't exist.");
                 }
 
                 List<Message> messages = await _messageService.GetMessagesAsync(userId, receiver.Id);
@@ -98,9 +102,21 @@ namespace MyProClip.Hubs
                     }
                 }
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                throw new Exception($"{e.Message}");
+                await Clients.Caller.SendAsync("Failed to get user", ex.Message);
+            }
+            catch (FriendshipManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to get friendship", ex.Message);
+            }
+            catch (ClipManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to get clip", ex.Message);
+            }
+            catch (MessageManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to send message", ex.Message);
             }
         }
 
@@ -111,13 +127,13 @@ namespace MyProClip.Hubs
             {
                 string? userId = Context?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                IdentityUser? receiver = await _userService.FindUserByNameAsync(receiverName) ?? throw new Exception("Friend not found.");          
-                IdentityUser? sender = await _userManager.FindByIdAsync(userId) ?? throw new Exception("User not found.");
+                IdentityUser? receiver = await _userService.FindUserByNameAsync(receiverName) ?? throw new UserRetrievalException("Friend not found.");          
+                IdentityUser? sender = await _userManager.FindByIdAsync(userId) ?? throw new UserRetrievalException("User not found.");
                 
                 bool friendshipExists = await _friendshipService.FriendshipExists(receiver.Id, sender.Id);
                 if (!friendshipExists)
                 {
-                    throw new Exception("Friendship doesn't exist.");
+                    throw new FriendshipNotFoundException("Friendship doesn't exist.");
                 }
 
                 ClipViewModel? clipViewModel = null;
@@ -142,9 +158,21 @@ namespace MyProClip.Hubs
 
                 var createdMessage = await _messageService.CreateMessageAsync(sender.Id, receiver.Id, message, clipId);
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                throw new Exception($"{e.Message}");
+                await Clients.Caller.SendAsync("Failed to get user", ex.Message);
+            }
+            catch (FriendshipManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to get friendship", ex.Message);
+            }
+            catch (ClipManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to get clip", ex.Message);
+            }
+            catch (MessageManagerException ex)
+            {
+                await Clients.Caller.SendAsync("Failed to send message", ex.Message);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
@@ -23,7 +24,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException("The username was empty!");
+                throw new InvalidUsernameException("The username was empty!");
             }
 
             return await _userRepository.FindUserByNameAsync(username);

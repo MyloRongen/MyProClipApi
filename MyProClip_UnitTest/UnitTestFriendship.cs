@@ -1,5 +1,6 @@
 ﻿using Moq;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions.Friendship;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
@@ -39,10 +40,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void CreateFriendship_NullOrEmptyArguments_ThrowsArgumentException()
+        public void CreateFriendship_NullOrEmptyArguments_ThrowsInvalidFriendshipDataException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.CreateFriendship(new FriendShip()));
+            Assert.ThrowsAsync<InvalidFriendshipDataException>(async () => await _friendshipService.CreateFriendship(new FriendShip()));
         }
 
         [Test]
@@ -61,6 +62,30 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
+        public void FriendshipExists_NullUserId_ThrowsInvalidFriendIdException()
+        {
+            // Arrange
+            string? userId = null;
+            string friendId = "3d27ac2e-9b58-4b81-8c5d-6f470e496a81";
+
+            // Act & Assert
+            var exception = Assert.ThrowsAsync<InvalidUserIdException>(async () => await _friendshipService.FriendshipExists(userId, friendId));
+            Assert.That(exception.Message, Is.EqualTo("Invalid user id."));
+        }
+
+        [Test]
+        public void FriendshipExists_NullFriendId_ThrowsInvalidFriendIdException()
+        {
+            // Arrange
+            string userId = "1f2e8b7c-0e13-4aae-b5b8-5d9830672f9a";
+            string? friendId = null;
+
+            // Act & Assert
+            var exception = Assert.ThrowsAsync<InvalidFriendIdException>(async () => await _friendshipService.FriendshipExists(userId, friendId));
+            Assert.That(exception.Message, Is.EqualTo("Invalid friend id."));
+        }
+
+        [Test]
         public async Task GetPendingFriendRequests_ValidUserId_ReturnsRequests()
         {
             // Arrange
@@ -76,10 +101,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void GetPendingFriendRequests_NullOrEmptyUserId_ThrowsArgumentException()
+        public void GetPendingFriendRequests_NullOrEmptyUserId_ThrowsInvalidUserIdException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.GetPendingFriendRequests(""));
+            Assert.ThrowsAsync<InvalidUserIdException>(async () => await _friendshipService.GetPendingFriendRequests(""));
         }
 
         [Test]
@@ -97,10 +122,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void AcceptFriendRequest_NullOrEmptyArguments_ThrowsArgumentException()
+        public void AcceptFriendRequest_NullOrEmptyArguments_ThrowsInvalidFriendshipDataException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.AcceptFriendRequest(new FriendShip()));
+            Assert.ThrowsAsync<InvalidFriendshipDataException>(async () => await _friendshipService.AcceptFriendRequest(new FriendShip()));
         }
 
         [Test]
@@ -119,10 +144,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void GetFriendshipByUserId_InvalidId_ThrowsArgumentException()
+        public void GetFriendshipByUserId_InvalidId_ThrowsFriendshipNotFoundException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.GetFriendshipByUserId(0));
+            Assert.ThrowsAsync<FriendshipNotFoundException>(async () => await _friendshipService.GetFriendshipByUserId(0));
         }
 
         [Test]
@@ -139,10 +164,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void DeleteFriendship_NullOrEmptyArguments_ThrowsArgumentException()
+        public void DeleteFriendship_NullOrEmptyArguments_ThrowsInvalidFriendshipDataException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.DeleteFriendship(new FriendShip()));
+            Assert.ThrowsAsync<InvalidFriendshipDataException>(async () => await _friendshipService.DeleteFriendship(new FriendShip()));
         }
 
         [Test]
@@ -166,10 +191,10 @@ namespace MyProClip_UnitTest
         }
 
         [Test]
-        public void GetFriendsById_NullOrEmptyUserId_ThrowsArgumentException()
+        public void GetFriendsById_NullOrEmptyUserId_ThrowsInvalidUserIdException()
         {
             // Assert & Act
-            Assert.ThrowsAsync<ArgumentException>(async () => await _friendshipService.GetFriendsById(""));
+            Assert.ThrowsAsync<InvalidUserIdException>(async () => await _friendshipService.GetFriendsById(""));
         }
     }
 }

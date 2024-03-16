@@ -1,4 +1,5 @@
-﻿using MyProClip_BLL.Interfaces.Repositories;
+﻿using MyProClip_BLL.Exceptions.Clip;
+using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
 using System;
@@ -23,7 +24,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new Exception("User ID does not exist");
+                throw new ArgumentException("User ID is required.", nameof(userId));
             }
 
             return await _clipRepository.GetClipsByUserId(userId);
@@ -38,7 +39,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrWhiteSpace(clip.UserId) || string.IsNullOrWhiteSpace(clip.Title) || string.IsNullOrWhiteSpace(clip.VideoUrl) || string.IsNullOrWhiteSpace(clip.ThumbnailUrl))
             {
-                throw new ArgumentException("Invalid project data. UserId, Title, video url and thumbnail url are required.");
+                throw new InvalidClipDataException("Invalid clip data. UserId, Title, video URL, and thumbnail URL are required.");
             }
 
             _clipRepository.AddClip(clip);
@@ -48,7 +49,7 @@ namespace MyProClip_BLL.Services
         {
             if (clipId <= 0)
             {
-                throw new Exception("The clip id couldn't be found!");
+                throw new ArgumentException("Invalid clip ID.", nameof(clipId));
             }
 
             return await _clipRepository.GetClipById(clipId);
@@ -58,7 +59,7 @@ namespace MyProClip_BLL.Services
         {
             if (clip == null)
             {
-                throw new Exception("The clip couldn't be found!");
+                throw new ArgumentNullException(nameof(clip), "Clip instance is null.");
             }
 
             await _clipRepository.DeleteClipAsync(clip);

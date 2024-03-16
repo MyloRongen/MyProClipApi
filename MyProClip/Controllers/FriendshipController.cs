@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyProClip.Models;
 using MyProClip_BLL.Enums;
+using MyProClip_BLL.Exceptions.Friendship;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
 using MyProClip_BLL.Services;
@@ -50,7 +52,7 @@ namespace MyProClip.Controllers
                 {
                     string? friendName = friendship.UserId == userId ? friendship.Friend.UserName : friendship.User.UserName;
 
-                    FriendsViewModel newFriend = new FriendsViewModel
+                    FriendsViewModel newFriend = new()
                     {
                         FriendId = friendship.Id,
                         FriendName = friendName
@@ -61,9 +63,13 @@ namespace MyProClip.Controllers
 
                 return Ok(friendViewModels);
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to get friendships: {ex.Message}");
+            }
+            catch (FriendshipManagerException ex)
+            {
+                return BadRequest($"Failed to get friendships: {ex.Message}");
             }
         }
 
@@ -100,9 +106,13 @@ namespace MyProClip.Controllers
 
                 return Ok(new { message = "Friend request sent!" });
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to create friendship: {ex.Message}");
+            }
+            catch (FriendshipManagerException ex)
+            {
+                return BadRequest($"Failed to create friendship: {ex.Message}");
             }
         }
 
@@ -129,9 +139,13 @@ namespace MyProClip.Controllers
 
                 return Ok(friendRequestViewModels);
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to get pending friend requests: {ex.Message}");
+            }
+            catch (FriendshipManagerException ex)
+            {
+                return BadRequest($"Failed to get pending friend requests: {ex.Message}");
             }
         }
 
@@ -162,9 +176,13 @@ namespace MyProClip.Controllers
 
                 return Ok("Friend request have been accepted");
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to accept friend request: {ex.Message}");
+            }
+            catch (FriendshipManagerException ex)
+            {
+                return BadRequest($"Failed to accept friend request: {ex.Message}");
             }
         }
 
@@ -195,9 +213,13 @@ namespace MyProClip.Controllers
 
                 return Ok("Friend request has been declined!");
             }
-            catch (Exception e)
+            catch (UserManagerException ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Failed to decline friend request: {ex.Message}");
+            }
+            catch (FriendshipManagerException ex)
+            {
+                return BadRequest($"Failed to decline friend request: {ex.Message}");
             }
         }
 
@@ -207,7 +229,7 @@ namespace MyProClip.Controllers
 
             if (string.IsNullOrEmpty(userIdString))
             {
-                throw new Exception("User ID not found or invalid.");
+                throw new UserRetrievalException("User ID not found or invalid.");
             }
 
             return userIdString;
