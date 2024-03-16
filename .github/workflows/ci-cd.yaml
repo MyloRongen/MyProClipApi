@@ -27,9 +27,10 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
-      - uses: goit/setup-resharper@v3
-        with:
-          version: '2021.2'
+                    
+      - name: Setup ReSharper Command Line Tools    
+        uses: goit/setup-resharper@v3.0.1
+        
       - run: InspectCode MyProClip.sln
 
       - name: Buildx docker
