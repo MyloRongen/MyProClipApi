@@ -27,19 +27,10 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
-      - name: Install ReSharper CLT
-        run: |
-          wget -O inspectcode.zip https://download.jetbrains.com/resharper/ReSharper.CommandLineTools.zip
-          unzip inspectcode.zip -d inspectcode
-      - name: Run ReSharper Analysis
-        run: ./inspectcode/inspectcode.sh MyProClip.sln --output=resharper_analysis_results.xml
-
-      - name: Process Analysis Results
-        run: |
-          if grep -q '<Issue Severity="ERROR"' resharper_analysis_results.xml; then
-            echo "Critical issues found. Failing build."
-            exit 1
-          fi
+      - uses: goit/setup-resharper@v3
+        with:
+          version: '2021.2'
+      - run: InspectCode MyProClip.sln
 
       - name: Buildx docker
         id: buildx
