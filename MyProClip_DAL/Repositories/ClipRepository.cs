@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyProClip_BLL.Enums;
 using MyProClip_BLL.Exceptions;
+using MyProClip_BLL.Exceptions.Clip;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Models;
 using MyProClip_DAL.Data;

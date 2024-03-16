@@ -1,4 +1,5 @@
-﻿using MyProClip_BLL.Interfaces.Repositories;
+﻿using MyProClip_BLL.Exceptions.Message;
+using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
 using System;
@@ -22,7 +23,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrEmpty(senderId) || string.IsNullOrEmpty(receiverId) || string.IsNullOrEmpty(messageString))
             {
-                throw new ArgumentException("Sender, receiver or the message is unkown.");
+                throw new InvalidMessageDataException("Sender, receiver, or the message is unknown.");
             }
 
             int? actualClipId = clipId == 0 ? null : clipId;
@@ -44,7 +45,7 @@ namespace MyProClip_BLL.Services
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(friendId))
             {
-                throw new ArgumentException("user or friend cannot be found!");
+                throw new InvalidMessageDataException("User or friend cannot be found.");
             }
 
             return await _messageRepository.GetMessagesAsync(userId, friendId);
