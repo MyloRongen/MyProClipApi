@@ -32,7 +32,8 @@ jobs:
         with:
           version: '2021.2'
         
-      - run: InspectCode ./MyProClip.sln
+      - name: Run ReSharper Analysis
+        run: ./inspectcode/inspectcode.sh MyProClip.sln --output=resharper_analysis_results.xml
 
       - name: Buildx docker
         id: buildx
