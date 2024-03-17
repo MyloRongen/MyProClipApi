@@ -48,3 +48,14 @@ jobs:
         with:
           push: true
           tags: mypro144/myproclip:latest
+          
+  deploy_locally:
+    name: Deploy Locally
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: docker pull mypro144/myproclip:latest
+        
+      - name: Run Docker container
+        run: docker run -d -p 8080:80 mypro144/myproclip:latest
