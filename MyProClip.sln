@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyProClip_DAL", "MyProClip_
 		{33A45777-48F3-40F1-B8E7-0CD7746F137F} = {33A45777-48F3-40F1-B8E7-0CD7746F137F}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyProClip_IntergrationTest", "MyProClip_IntergrationTest\MyProClip_IntergrationTest.csproj", "{8942250B-135A-4979-A966-3104CEA8C0D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CB1DC5-476D-414D-8A60-DF241D52EB83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8942250B-135A-4979-A966-3104CEA8C0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8942250B-135A-4979-A966-3104CEA8C0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8942250B-135A-4979-A966-3104CEA8C0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8942250B-135A-4979-A966-3104CEA8C0D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
