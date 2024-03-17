@@ -24,10 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="K6-Tests\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Thumbnails\" />
-    <Folder Include="Videos\" />
+	  <Content Include="Migrations\*">
+		  <CopyToPublishDirectory>always</CopyToPublishDirectory>
+	  </Content>
+	  <Content Include="Thumbnails\*">
+		  <CopyToPublishDirectory>always</CopyToPublishDirectory>
+	  </Content>
+	  <Content Include="Videos\*">
+		  <CopyToPublishDirectory>always</CopyToPublishDirectory>
+	  </Content>
   </ItemGroup>
 
   <ItemGroup>
