@@ -58,4 +58,4 @@ jobs:
         run: docker pull mypro144/myproclip:latest
         
       - name: Run Docker container
-        run: docker run -d -p 32769:8080 -p 8000:8081 --name MyProClip_Prod -e ASPNETCORE_ENVIRONMENT=Development mypro144/myproclip:latest 
+        run: docker run -d --network myproclip_network -p 32769:8080 -p 8000:8081 --name MyProClip_Prod -e ASPNETCORE_ENVIRONMENT=Development mypro144/myproclip:latest 
