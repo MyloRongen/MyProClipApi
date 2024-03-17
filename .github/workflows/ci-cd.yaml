@@ -58,4 +58,4 @@ jobs:
         run: docker pull mypro144/myproclip:latest
         
       - name: Run Docker container
-        run: docker run -d -p 8080:80 mypro144/myproclip:latest
+        run: docker run -d -p 8888:80 --name MyProClip_Prod mypro144/myproclip:latest
