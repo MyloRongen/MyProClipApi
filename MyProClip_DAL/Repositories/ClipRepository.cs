@@ -17,6 +17,7 @@ namespace MyProClip_DAL.Repositories
     public class ClipRepository : IClipRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public ClipRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;

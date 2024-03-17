@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="K6-Tests\" />
     <Folder Include="Migrations\" />
     <Folder Include="Thumbnails\" />
     <Folder Include="Videos\" />
