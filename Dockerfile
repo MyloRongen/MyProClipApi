@@ -10,7 +10,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["MyProClip/MyProClip.csproj", "MyProClip/"]
-COPY ["MyProClip_DAL/MyProClip_DAL.csproj", "MyProClip_DAL/"]
 RUN dotnet restore "./MyProClip/./MyProClip.csproj"
 COPY . .
 WORKDIR "/src/MyProClip"
