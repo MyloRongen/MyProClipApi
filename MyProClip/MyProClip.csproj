@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -37,6 +41,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyProClip_DAL\MyProClip_DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="K6Tests\" />
   </ItemGroup>
 
 </Project>

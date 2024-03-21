@@ -36,7 +36,7 @@ namespace MyProClip.Controllers
                 string userId = GetUserIdFromClaims();
                 if (string.IsNullOrWhiteSpace(userId))
                 {
-                    return BadRequest("User cannot be found!");
+                    return NotFound("User cannot be found!");
                 }
 
                 List<FriendShip> friendships = await _friendshipService.GetFriendsById(GetUserIdFromClaims());
@@ -65,11 +65,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to get friendships: {ex.Message}");
+                return NotFound($"Failed to get friendships: {ex.Message}");
             }
             catch (FriendshipManagerException ex)
             {
-                return BadRequest($"Failed to get friendships: {ex.Message}");
+                return NotFound($"Failed to get friendships: {ex.Message}");
             }
         }
 
@@ -80,13 +80,13 @@ namespace MyProClip.Controllers
             {
                 if (string.IsNullOrWhiteSpace(friendshipViewModel.FriendName))
                 {
-                    return BadRequest("The name from the friend is empty.");
+                    return NotFound("The name from the friend is empty.");
                 }
 
                 IdentityUser? friendUser = await _userService.FindUserByNameAsync(friendshipViewModel.FriendName);
                 if (friendUser == null)
                 {
-                    return BadRequest("Friend not found.");
+                    return NotFound("Friend not found.");
                 }
 
                 bool friendshipExists = await _friendshipService.FriendshipExists(GetUserIdFromClaims(), friendUser.Id);
@@ -108,11 +108,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to create friendship: {ex.Message}");
+                return NotFound($"Failed to create friendship: {ex.Message}");
             }
             catch (FriendshipManagerException ex)
             {
-                return BadRequest($"Failed to create friendship: {ex.Message}");
+                return NotFound($"Failed to create friendship: {ex.Message}");
             }
         }
 
@@ -141,11 +141,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to get pending friend requests: {ex.Message}");
+                return NotFound($"Failed to get pending friend requests: {ex.Message}");
             }
             catch (FriendshipManagerException ex)
             {
-                return BadRequest($"Failed to get pending friend requests: {ex.Message}");
+                return NotFound($"Failed to get pending friend requests: {ex.Message}");
             }
         }
 
@@ -157,19 +157,19 @@ namespace MyProClip.Controllers
                 IdentityUser? friendUser = await _userService.FindUserByNameAsync(acceptFriendRequestViewModel.FriendName);
                 if (friendUser == null)
                 {
-                    return BadRequest("Friend not found.");
+                    return NotFound("Friend not found.");
                 }
 
                 bool friendshipExists = await _friendshipService.FriendshipExists(friendUser.Id, GetUserIdFromClaims());
                 if (!friendshipExists)
                 {
-                    return BadRequest("Friend request doesn't exist.");
+                    return NotFound("Friend request doesn't exist.");
                 }
 
                 FriendShip? friendship = await _friendshipService.GetFriendshipByUserId(acceptFriendRequestViewModel.FriendshipId);
                 if (friendship == null)
                 {
-                    return BadRequest("Friend request doesn't exist.");
+                    return NotFound("Friend request doesn't exist.");
                 }
 
                 await _friendshipService.AcceptFriendRequest(friendship);
@@ -178,11 +178,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to accept friend request: {ex.Message}");
+                return NotFound($"Failed to accept friend request: {ex.Message}");
             }
             catch (FriendshipManagerException ex)
             {
-                return BadRequest($"Failed to accept friend request: {ex.Message}");
+                return NotFound($"Failed to accept friend request: {ex.Message}");
             }
         }
 
@@ -194,19 +194,19 @@ namespace MyProClip.Controllers
                 IdentityUser? friendUser = await _userService.FindUserByNameAsync(deleteFriendshipViewModel.FriendName);
                 if (friendUser == null)
                 {
-                    return BadRequest("Friend not found.");
+                    return NotFound("Friend not found.");
                 }
 
                 bool friendshipExists = await _friendshipService.FriendshipExists(friendUser.Id, GetUserIdFromClaims());
                 if (!friendshipExists)
                 {
-                    return BadRequest("Friend request doesn't exist.");
+                    return NotFound("Friend request doesn't exist.");
                 }
 
                 FriendShip? friendship = await _friendshipService.GetFriendshipByUserId(deleteFriendshipViewModel.FriendshipId);
                 if (friendship == null)
                 {
-                    return BadRequest("Friend request doesn't exist.");
+                    return NotFound("Friend request doesn't exist.");
                 }
 
                 await _friendshipService.DeleteFriendship(friendship);
@@ -215,11 +215,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to decline friend request: {ex.Message}");
+                return NotFound($"Failed to decline friend request: {ex.Message}");
             }
             catch (FriendshipManagerException ex)
             {
-                return BadRequest($"Failed to decline friend request: {ex.Message}");
+                return NotFound($"Failed to decline friend request: {ex.Message}");
             }
         }
 
