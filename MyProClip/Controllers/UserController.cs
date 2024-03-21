@@ -27,7 +27,7 @@ namespace MyProClip.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest($"Failed to update username, username was empty!");
+                    return NotFound($"Failed to update username, username was empty!");
                 }
 
                 string userId = GetUserIdFromClaims();
@@ -35,7 +35,7 @@ namespace MyProClip.Controllers
                 IdentityUser? user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return BadRequest("User not found.");
+                    return NotFound("User not found.");
                 }
 
                 user.UserName = updateUsernameViewModel.NewUsername;
@@ -54,7 +54,7 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to update username: {ex.Message}");
+                return NotFound($"Failed to update username: {ex.Message}");
             }
         }
 
@@ -68,7 +68,7 @@ namespace MyProClip.Controllers
                 IdentityUser? user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return BadRequest("User not found.");
+                    return NotFound("User not found.");
                 }
 
                 return Ok(new { username = user.UserName });

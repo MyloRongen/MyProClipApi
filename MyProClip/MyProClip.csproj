@@ -43,4 +43,8 @@
     <ProjectReference Include="..\MyProClip_DAL\MyProClip_DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="K6Tests\" />
+  </ItemGroup>
+
 </Project>
