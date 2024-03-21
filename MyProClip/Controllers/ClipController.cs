@@ -59,7 +59,7 @@ namespace MyProClip.Controllers
             }
             catch (ClipManagerException ex)
             {
-                return BadRequest($"Failed to retrieve public clips: {ex.Message}");
+                return NotFound($"Failed to retrieve public clips: {ex.Message}");
             }       
         }
 
@@ -95,15 +95,15 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
+                return NotFound($"Failed to retrieve user clips: {ex.Message}");
             }
             catch (ArgumentException ex)
             {
-                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
+                return NotFound($"Failed to retrieve user clips: {ex.Message}");
             }
             catch (ClipManagerException ex)
             {
-                return BadRequest($"Failed to retrieve user clips: {ex.Message}");
+                return NotFound($"Failed to retrieve user clips: {ex.Message}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace MyProClip.Controllers
             {
                 if (clipViewModelRequest == null)
                 {
-                    return BadRequest("No information was given about the clip.");
+                    return NotFound("No information was given about the clip.");
                 }
 
                 string thumbnailUrl = await _imageService.SaveImageAsync(clipViewModelRequest.ThumbnailFile);
@@ -137,11 +137,11 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to add a clip: {ex.Message}");
+                return NotFound($"Failed to add a clip: {ex.Message}");
             }
             catch (ClipManagerException ex)
             {
-                return BadRequest($"Failed to add a clip: {ex.Message}");
+                return NotFound($"Failed to add a clip: {ex.Message}");
             }
         }
 
@@ -154,13 +154,13 @@ namespace MyProClip.Controllers
 
                 if (clip == null)
                 {
-                    return BadRequest("Clip doesn't exist in the current context.");
+                    return NotFound("Clip doesn't exist in the current context.");
                 }
                 else
                 {
                     if (clip.UserId != GetUserIdFromClaims())
                     {
-                        return BadRequest("Clip doesn't belong to the user.");
+                        return NotFound("Clip doesn't belong to the user.");
                     }
 
                     await _clipService.DeleteClipAsync(clip);
@@ -171,15 +171,15 @@ namespace MyProClip.Controllers
             }
             catch (UserManagerException ex)
             {
-                return BadRequest($"Failed to delete a clip: {ex.Message}");
+                return NotFound($"Failed to delete a clip: {ex.Message}");
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest($"Failed to delete a clip: {ex.Message}");
+                return NotFound($"Failed to delete a clip: {ex.Message}");
             }
             catch (ClipManagerException ex)
             {
-                return BadRequest($"Failed to delete a clip: {ex.Message}");
+                return NotFound($"Failed to delete a clip: {ex.Message}");
             }
         }
 

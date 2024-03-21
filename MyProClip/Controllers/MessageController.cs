@@ -37,19 +37,19 @@ namespace MyProClip.Controllers
             IdentityUser? friendUser = await _userService.FindUserByNameAsync(sendMessageViewModel.ReceiverName);
             if (friendUser == null)
             {
-                return BadRequest("Friend not found.");
+                return NotFound("Friend not found.");
             }
 
             IdentityUser? sender = await _userManager.FindByIdAsync(userId);
             if (sender == null)
             {
-                return BadRequest("User not found.");
+                return NotFound("User not found.");
             }
 
             bool friendshipExists = await _friendshipService.FriendshipExists(friendUser.Id, sender.Id);
             if (!friendshipExists)
             {
-                return BadRequest("Friendship doesn't exist.");
+                return NotFound("Friendship doesn't exist.");
             }
 
             await _hubContext.Clients.All.SendAsync("SendMessage", friendUser.UserName, sendMessageViewModel.message);
