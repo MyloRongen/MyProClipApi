@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     [ApiController]
     public class ClipController : ControllerBase
@@ -30,7 +30,7 @@ namespace MyProClip.Controllers
             _videoService = new VideoService(webHostEnvironment);
         }
 
-        [HttpGet("get-public-clips")]
+        [HttpGet("clips/public")]
         public async Task<IActionResult> GetPublicClips()
         {
             try
@@ -63,7 +63,7 @@ namespace MyProClip.Controllers
             }       
         }
 
-        [HttpGet("get-clips")]
+        [HttpGet("clips")]
         public async Task<IActionResult> GetClips()
         {
             try
@@ -107,7 +107,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpPost("add-clip")]
+        [HttpPost("clips")]
         public async Task<IActionResult> AddClip([FromForm] ClipViewModelRequest clipViewModelRequest)
         {
             try
@@ -145,7 +145,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpDelete("delete-clip/{clipId}")]
+        [HttpDelete("clips/{clipId}")]
         public async Task<IActionResult> DeleteClip(int clipId)
         {
             try

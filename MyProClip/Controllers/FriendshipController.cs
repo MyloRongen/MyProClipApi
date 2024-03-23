@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     [ApiController]
     public class FriendshipController : ControllerBase
@@ -73,7 +73,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpPost("add-friend")]
+        [HttpPost("friends")]
         public async Task<IActionResult> CreateFriendship([FromBody] FriendshipViewModel friendshipViewModel)
         {
             try
@@ -116,7 +116,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpGet("pending-friend-requests")]
+        [HttpGet("friends/pending")]
         public async Task<IActionResult> GetPendingFriendRequests()
         {
             try
@@ -149,7 +149,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpPut("accept-friend-request")]
+        [HttpPut("friends/accept")]
         public async Task<IActionResult> AcceptFriendshipRequest([FromBody] AcceptFriendRequestViewModel acceptFriendRequestViewModel)
         {
             try
@@ -186,7 +186,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpDelete("decline-friend-request")]
+        [HttpDelete("friends")]
         public async Task<IActionResult> DeclineFriendRequest([FromBody] DeleteFriendshipViewModel deleteFriendshipViewModel)
         {
             try
