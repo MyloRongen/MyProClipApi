@@ -24,7 +24,7 @@ export default function () {
 
     const authToken = loginResponse.json('accessToken');
 
-    const endpointResponse = http.get('https://localhost:8000/api/Clip/get-clips', {
+    const endpointResponse = http.get('https://localhost:8000/api/clips', {
         headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json'

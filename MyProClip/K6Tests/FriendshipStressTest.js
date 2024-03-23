@@ -36,7 +36,7 @@ export default function () {
 
     const authToken = loginResponse.json('accessToken');
 
-    const endpointResponse = http.get('https://localhost:8000/api/Friendship/friends', {
+    const endpointResponse = http.get('https://localhost:8000/api/friends', {
         headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json',
