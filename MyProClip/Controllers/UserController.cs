@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     [ApiController]
     public class UserController : ControllerBase
@@ -20,7 +20,7 @@ namespace MyProClip.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("update-username")]
+        [HttpPost("users/updateUsername")]
         public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameViewModel updateUsernameViewModel)
         {
             try
@@ -58,7 +58,7 @@ namespace MyProClip.Controllers
             }
         }
 
-        [HttpGet("get-username")]
+        [HttpGet("users/getUsername")]
         public async Task<IActionResult> GetUsername()
         {
             try

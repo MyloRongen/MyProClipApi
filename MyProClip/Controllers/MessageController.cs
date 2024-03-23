@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace MyProClip.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     [ApiController]
     public class MessageController : ControllerBase
@@ -29,7 +29,7 @@ namespace MyProClip.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("messages")]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageViewModel sendMessageViewModel)
         {
             string userId = GetUserIdFromClaims();

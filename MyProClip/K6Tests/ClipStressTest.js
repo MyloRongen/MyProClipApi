@@ -36,7 +36,7 @@ export default function () {
 
     const authToken = loginResponse.json('accessToken');
 
-    const endpointResponse = http.get('https://localhost:8000/api/Clip/get-clips', {
+    const endpointResponse = http.get('https://localhost:8000/api/clips', {
         headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default function () {
     });
 
     check(endpointResponse, {
-        'endpoint status is 200': (res) => res.status === 200,
+        'get clips status is 200': (res) => res.status === 200,
     });
 
     sleep(3);
