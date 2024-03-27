@@ -27,6 +27,9 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
+      - name: Install coverlet
+        run: dotnet tool install --global coverlet.console
+
       - name: Run automated unit and integration tests
         run: dotnet test MyProClip_UnitTest/MyProClip_UnitTest.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
