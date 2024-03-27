@@ -27,13 +27,14 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal  
 
-      - name: Code coverage
-        uses: b3b00/coverlet-action@1.2.5
+      - name: Run automated unit and integration tests
+        run: dotnet test MyProClip_UnitTest/MyProClip_UnitTest.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+
+      - name: Publish coverage report to coveralls.io   
+        uses: coverallsapp/github-action@master   
         with:
-          testProject: 'MyProClip_UnitTest/MyProClip_UnitTest.csproj'
-          outputFormat: 'cobertura'
-          excludes: '[program]*,[test]test.*'
-          threshold: 80
+          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }} 
+          path-to-lcov: MyProClip_UnitTest/TestResults/coverage.info 
 
       - name: Inspect code
         uses: muno92/resharper_inspectcode@v1
