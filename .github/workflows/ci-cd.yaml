@@ -30,14 +30,14 @@ jobs:
       - name: Install coverlet
         run: dotnet tool install --global coverlet.console
 
-      - name: Run automated unit and integration tests
-        run: dotnet test MyProClip_UnitTest/MyProClip_UnitTest.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      - name: Run tests and generate coverage report
+        run: coverlet ./MyProClip_UnitTest/bin/Debug/net8.0/MyProClip_UnitTest.dll --target "dotnet" --format lcov --targetargs "test . --no-build" --output ./coverage/lcov.info
 
-      - name: Publish coverage report to coveralls.io   
-        uses: coverallsapp/github-action@master   
+      - name: Publish coverage report to coveralls.io 
+        uses: coverallsapp/github-action@v1.1.1
         with:
-          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }} 
-          path-to-lcov: MyProClip_UnitTest/TestResults/coverage.info 
+            github-token: ${{secrets.COVERALLS_REPO_TOKEN }}
+            path-to-lcov: ./coverage/lcov.info
 
       - name: Inspect code
         uses: muno92/resharper_inspectcode@v1
