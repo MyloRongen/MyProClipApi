@@ -31,7 +31,6 @@ jobs:
         uses: b3b00/coverlet-action@1.2.5
         with:
           testProject: 'MyProClip_UnitTest/MyProClip_UnitTest.csproj'
-          output: 'coverage.cobertura.xml'
           outputFormat: 'cobertura'
           excludes: '[program]*,[test]test.*'
           threshold: 80
