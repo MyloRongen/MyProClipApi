@@ -32,6 +32,10 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: coverlet ./MyProClip_UnitTest/bin/Debug/net8.0/MyProClip_UnitTest.dll --target "dotnet" --format lcov --targetargs "test . --no-build" --output ./coverage/lcov.info
+        env:
+          COVERLET_OUTPUT_FORMAT: lcov
+          COVERLET_OUTPUT: ./coverage/lcov.info
+          COVERLET_EXCLUDE: '"./MyproClip_BLL/Exceptions","./MyproClip_BLL/Models"'
 
       - name: Publish coverage report to coveralls.io 
         uses: coverallsapp/github-action@v1.1.1
