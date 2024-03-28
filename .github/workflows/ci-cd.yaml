@@ -31,7 +31,7 @@ jobs:
         run: dotnet tool install --global coverlet.console
 
       - name: Run tests and generate coverage report
-        run: coverlet ./MyProClip_UnitTest/bin/Debug/net8.0/MyProClip_UnitTest.dll --exclude "[./MyProClip_BLL/Exceptions]*" --target "dotnet" --format lcov --targetargs "test . --no-build" --output ./coverage/lcov.info
+        run: coverlet ./MyProClip_UnitTest/bin/Debug/net8.0/MyProClip_UnitTest.dll --exclude "[./MyProClip_BLL/Exceptions/*]*" --target "dotnet" --format lcov --targetargs "test . --no-build" --output ./coverage/lcov.info
 
       - name: Publish coverage report to coveralls.io 
         uses: coverallsapp/github-action@v1.1.1
