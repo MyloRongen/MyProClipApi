@@ -33,9 +33,9 @@ namespace MyProClip_IntergrationTest
 
         private void SeedData()
         {
-            List<IdentityUser> defaultUsers =
+            List<ApplicationUser> defaultUsers =
             [
-                new IdentityUser
+                new ApplicationUser
                 {
                     Id = "0206A018-5AC6-492D-AB99-10105193D384",
                     Email = "test1@gmail.com",
@@ -44,7 +44,7 @@ namespace MyProClip_IntergrationTest
                     NormalizedUserName = "TESTUSER1",
                     PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
                 },
-                new IdentityUser
+                new ApplicationUser
                 {
                     Id = "0102B020-6BD7-4F9A-A632-45A1B7F0A738",
                     Email = "test2@gmail.com",
@@ -53,7 +53,7 @@ namespace MyProClip_IntergrationTest
                     NormalizedUserName = "TESTUSER2",
                     PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
                 },
-                new IdentityUser
+                new ApplicationUser
                 {
                     Id = "0303C030-8EE8-4D4F-BE7C-6A7E8E1E1E23",
                     Email = "test3@gmail.com",

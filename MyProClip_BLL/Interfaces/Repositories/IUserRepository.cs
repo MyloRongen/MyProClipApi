@@ -11,5 +11,6 @@ namespace MyProClip_BLL.Interfaces.Repositories
     public interface IUserRepository
     {
         Task<IdentityUser?> FindUserByNameAsync(string username);
+        Task UserReportClip(ReportUserClip reportUserClip);
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyProClip_DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
          base(options)
@@ -20,5 +20,6 @@ namespace MyProClip_DAL.Data
         public DbSet<Clip> Clips { get; set; }
         public DbSet<FriendShip> Friendships { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<ReportUserClip> ReportUserClips { get; set; }
     }
 }

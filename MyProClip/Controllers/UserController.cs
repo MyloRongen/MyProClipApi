@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using MyProClip.Models;
 using MyProClip_BLL.Exceptions.User;
 using System.Security.Claims;
+using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Models;
+using MyProClip_BLL.Services;
+using MyProClip_BLL.Exceptions.Clip;
 
 namespace MyProClip.Controllers
 {
@@ -14,10 +18,14 @@ namespace MyProClip.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserService _userService;
+        private readonly IClipService _clipService;
 
-        public UserController(UserManager<IdentityUser> userManager)
+        public UserController(UserManager<IdentityUser> userManager, IUserService userService, IClipService clipService)
         {
             _userManager = userManager;
+            _userService = userService;
+            _clipService = clipService;
         }
 
         [HttpPost("users/updateUsername")]
@@ -76,6 +84,51 @@ namespace MyProClip.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Failed to get username: {ex.Message}");
+            }
+        }
+
+        [HttpPost("users/reportUser")]
+        public async Task<IActionResult> ReportUser([FromBody] ReportUserClipViewModel reportModel)
+        {
+            try
+            {
+                IdentityUser? user = await _userManager.FindByIdAsync(reportModel.UserId);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+
+                Clip? clip = await _clipService.GetClipById(reportModel.ClipId);
+
+                if (clip == null)
+                {
+                    return NotFound("The Clip was not found!");
+                }
+
+
+                ReportUserClip reportUserClip = new()
+                {
+                    UserId = reportModel.UserId,
+                    ClipId = reportModel.ClipId,
+                    Reason = reportModel.Reason
+                };
+
+                await _userService.UserReportClip(reportUserClip);
+
+                return Ok("User reported successfully.");
+            }
+            catch (UserManagerException ex)
+            {
+                return NotFound($"Failed to report user clip: {ex.Message}");
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound($"Failed to report user clip: {ex.Message}");
+            }
+            catch (ClipManagerException ex)
+            {
+                return NotFound($"Failed to report user clip: {ex.Message}");
             }
         }
 

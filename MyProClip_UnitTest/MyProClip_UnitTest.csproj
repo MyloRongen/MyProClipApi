@@ -19,10 +19,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+	<ExcludeFromCodeCoverage Include="**/MyProClip_BLL/Models/**" />
+	<ExcludeFromCodeCoverage Include="**/MyProClip_BLL/Exceptions/**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyProClip_BLL\MyProClip_BLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestResults\" />
   </ItemGroup>
 
 </Project>

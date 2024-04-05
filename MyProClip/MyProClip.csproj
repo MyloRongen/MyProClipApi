@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="K6Tests\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -28,7 +28,7 @@ namespace MyProClip_IntergrationTest
 
         private void SeedData()
         {
-            IdentityUser defaultUser = new()
+            ApplicationUser defaultUser = new()
             {
                 Id = "0206A018-5AC6-492D-AB99-10105193D384",
                 Email = "test@gmail.com",
@@ -36,6 +36,8 @@ namespace MyProClip_IntergrationTest
                 UserName = "TestUser",
                 NormalizedUserName = "TESTUSER",
                 PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
+                Points = 0,
+                IsBanned = false
             };
 
             _context.Users.Add(defaultUser);
