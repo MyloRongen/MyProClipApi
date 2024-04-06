@@ -59,6 +59,9 @@ builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
+builder.Services.AddScoped<IReportedClipService, ReportedClipService>();
+builder.Services.AddScoped<IReportedClipRepository, ReportedClipRepository>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
