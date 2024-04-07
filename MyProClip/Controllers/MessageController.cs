@@ -19,9 +19,9 @@ namespace MyProClip.Controllers
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly IFriendshipService _friendshipService;
         private readonly IUserService _userService;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MessageController(IHubContext<ChatHub> hubContext, IFriendshipService friendshipService, IUserService userService, UserManager<IdentityUser> userManager) 
+        public MessageController(IHubContext<ChatHub> hubContext, IFriendshipService friendshipService, IUserService userService, UserManager<ApplicationUser> userManager) 
         {
             _hubContext = hubContext;
             _friendshipService = friendshipService;
@@ -34,13 +34,13 @@ namespace MyProClip.Controllers
         {
             string userId = GetUserIdFromClaims();
 
-            IdentityUser? friendUser = await _userService.FindUserByNameAsync(sendMessageViewModel.ReceiverName);
+            ApplicationUser? friendUser = await _userService.FindUserByNameAsync(sendMessageViewModel.ReceiverName);
             if (friendUser == null)
             {
                 return NotFound("Friend not found.");
             }
 
-            IdentityUser? sender = await _userManager.FindByIdAsync(userId);
+            ApplicationUser? sender = await _userManager.FindByIdAsync(userId);
             if (sender == null)
             {
                 return NotFound("User not found.");

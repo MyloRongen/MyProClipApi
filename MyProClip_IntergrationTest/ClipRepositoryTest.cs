@@ -35,7 +35,7 @@ namespace MyProClip_IntergrationTest
                 NormalizedEmail = "TEST@GMAIL.COM",
                 UserName = "TestUser",
                 NormalizedUserName = "TESTUSER",
-                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
+                PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
                 Points = 0,
                 IsBanned = false
             };

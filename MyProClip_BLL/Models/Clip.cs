@@ -20,7 +20,7 @@ namespace MyProClip_BLL.Models
         public string ThumbnailUrl { get; set; }
 
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public ApplicationUser User { get; set; }
 
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }

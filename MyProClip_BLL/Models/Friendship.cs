@@ -15,10 +15,10 @@ namespace MyProClip_BLL.Models
         public int Id { get; set; }
 
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public ApplicationUser User { get; set; }
 
         public string FriendId { get; set; }
-        public IdentityUser Friend { get; set; }
+        public ApplicationUser Friend { get; set; }
 
         public FriendshipStatus Status { get; set; }
     }

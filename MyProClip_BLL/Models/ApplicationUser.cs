@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MyProClip_BLL.Models
 {
-    [Keyless]
     public class ApplicationUser : IdentityUser
     {
         public int Points { get; set; }

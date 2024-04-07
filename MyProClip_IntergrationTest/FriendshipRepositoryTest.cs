@@ -42,7 +42,7 @@ namespace MyProClip_IntergrationTest
                     NormalizedEmail = "TEST1@GMAIL.COM",
                     UserName = "TestUser1",
                     NormalizedUserName = "TESTUSER1",
-                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
+                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
                 },
                 new ApplicationUser
                 {
@@ -51,7 +51,7 @@ namespace MyProClip_IntergrationTest
                     NormalizedEmail = "TEST2@GMAIL.COM",
                     UserName = "TestUser2",
                     NormalizedUserName = "TESTUSER2",
-                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
+                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
                 },
                 new ApplicationUser
                 {
@@ -60,7 +60,7 @@ namespace MyProClip_IntergrationTest
                     NormalizedEmail = "TEST3@GMAIL.COM",
                     UserName = "TestUser3",
                     NormalizedUserName = "TESTUSER3",
-                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Password123!"),
+                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
                 }
             ];
 

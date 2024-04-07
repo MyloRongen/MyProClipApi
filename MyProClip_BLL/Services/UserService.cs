@@ -21,7 +21,7 @@ namespace MyProClip_BLL.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IdentityUser?> FindUserByNameAsync(string username)
+        public async Task<ApplicationUser?> FindUserByNameAsync(string username)
         {
             if (string.IsNullOrEmpty(username))
             {

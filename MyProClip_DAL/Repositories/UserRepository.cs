@@ -15,20 +15,20 @@ namespace MyProClip_DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
 
-        public UserRepository(UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)
+        public UserRepository(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _dbContext = dbContext;
         }
 
-        public async Task<IdentityUser?> FindUserByNameAsync(string username)
+        public async Task<ApplicationUser?> FindUserByNameAsync(string username)
         {
             try
             {
-                IdentityUser? user = await _userManager.FindByNameAsync(username);
+                ApplicationUser? user = await _userManager.FindByNameAsync(username);
                 return user;
             }
             catch (Exception ex)

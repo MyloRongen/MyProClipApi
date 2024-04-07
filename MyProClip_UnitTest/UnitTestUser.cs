@@ -32,11 +32,11 @@ namespace MyProClip_UnitTest
         {
             // Arrange
             string username = "testUser";
-            IdentityUser expectedUser = new() { UserName = username };
+            ApplicationUser expectedUser = new() { UserName = username };
             _mockUserRepository.Setup(repo => repo.FindUserByNameAsync(username)).ReturnsAsync(expectedUser);
 
             // Act
-            IdentityUser? result = await _userService.FindUserByNameAsync(username);
+            ApplicationUser? result = await _userService.FindUserByNameAsync(username);
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -59,7 +59,7 @@ namespace MyProClip_UnitTest
         public async Task UserReportClip_WithValidReport_CallsUserRepository()
         {
             // Arrange
-            ReportUserClip reportUserClip = new() { UserId = "userId", ClipId = 1, Reason = "Test reason" };
+            ReportUserClip reportUserClip = new() { UserId = "userId", ReporterId = "reporterId", ClipId = 1, Reason = "Test reason" };
 
             // Act
             await _userService.UserReportClip(reportUserClip);

@@ -83,7 +83,7 @@ namespace MyProClip.Controllers
                     return NotFound("The name from the friend is empty.");
                 }
 
-                IdentityUser? friendUser = await _userService.FindUserByNameAsync(friendshipViewModel.FriendName);
+                ApplicationUser? friendUser = await _userService.FindUserByNameAsync(friendshipViewModel.FriendName);
                 if (friendUser == null)
                 {
                     return NotFound("Friend not found.");
@@ -154,7 +154,7 @@ namespace MyProClip.Controllers
         {
             try
             {
-                IdentityUser? friendUser = await _userService.FindUserByNameAsync(acceptFriendRequestViewModel.FriendName);
+                ApplicationUser? friendUser = await _userService.FindUserByNameAsync(acceptFriendRequestViewModel.FriendName);
                 if (friendUser == null)
                 {
                     return NotFound("Friend not found.");
@@ -191,7 +191,7 @@ namespace MyProClip.Controllers
         {
             try
             {
-                IdentityUser? friendUser = await _userService.FindUserByNameAsync(deleteFriendshipViewModel.FriendName);
+                ApplicationUser? friendUser = await _userService.FindUserByNameAsync(deleteFriendshipViewModel.FriendName);
                 if (friendUser == null)
                 {
                     return NotFound("Friend not found.");

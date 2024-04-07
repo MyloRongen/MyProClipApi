@@ -17,11 +17,11 @@ namespace MyProClip.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
         private readonly IClipService _clipService;
 
-        public UserController(UserManager<IdentityUser> userManager, IUserService userService, IClipService clipService)
+        public UserController(UserManager<ApplicationUser> userManager, IUserService userService, IClipService clipService)
         {
             _userManager = userManager;
             _userService = userService;
@@ -40,7 +40,7 @@ namespace MyProClip.Controllers
 
                 string userId = GetUserIdFromClaims();
 
-                IdentityUser? user = await _userManager.FindByIdAsync(userId);
+                ApplicationUser? user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
                     return NotFound("User not found.");
@@ -92,13 +92,13 @@ namespace MyProClip.Controllers
         {
             try
             {
-                IdentityUser? user = await _userManager.FindByIdAsync(reportModel.UserId);
+                ApplicationUser? user = await _userManager.FindByIdAsync(reportModel.UserId);
                 if (user == null)
                 {
                     return NotFound("User not found.");
                 }
 
-                IdentityUser? reporter = await _userManager.FindByIdAsync(reportModel.ReporterId);
+                ApplicationUser? reporter = await _userManager.FindByIdAsync(reportModel.ReporterId);
                 if (reporter == null)
                 {
                     return NotFound("Reporter not found.");

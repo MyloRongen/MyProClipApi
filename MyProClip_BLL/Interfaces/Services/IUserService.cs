@@ -10,7 +10,7 @@ namespace MyProClip_BLL.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<IdentityUser?> FindUserByNameAsync(string username);
+        Task<ApplicationUser?> FindUserByNameAsync(string username);
         Task UserReportClip(ReportUserClip reportUserClip);
     }
 }
