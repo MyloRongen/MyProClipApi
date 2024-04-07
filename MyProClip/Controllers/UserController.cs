@@ -73,13 +73,13 @@ namespace MyProClip.Controllers
             {
                 string userId = GetUserIdFromClaims();
 
-                IdentityUser? user = await _userManager.FindByIdAsync(userId);
+                ApplicationUser? user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
                     return NotFound("User not found.");
                 }
 
-                return Ok(new { username = user.UserName });
+                return Ok(new { username = user.UserName, points = user.Points });
             }
             catch (Exception ex)
             {
