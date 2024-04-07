@@ -92,16 +92,10 @@ namespace MyProClip.Controllers
         {
             try
             {
-                ApplicationUser? user = await _userManager.FindByIdAsync(reportModel.UserId);
+                ApplicationUser? user = await _userManager.FindByNameAsync(reportModel.UserName);
                 if (user == null)
                 {
                     return NotFound("User not found.");
-                }
-
-                ApplicationUser? reporter = await _userManager.FindByIdAsync(reportModel.ReporterId);
-                if (reporter == null)
-                {
-                    return NotFound("Reporter not found.");
                 }
 
 
@@ -115,8 +109,8 @@ namespace MyProClip.Controllers
 
                 ReportUserClip reportUserClip = new()
                 {
-                    UserId = reportModel.UserId,
-                    ReporterId = reportModel.ReporterId,
+                    UserId = user.Id,
+                    ReporterId = GetUserIdFromClaims(),
                     ClipId = reportModel.ClipId,
                     Reason = reportModel.Reason
                 };

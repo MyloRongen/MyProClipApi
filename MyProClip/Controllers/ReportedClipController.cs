@@ -49,9 +49,9 @@ namespace MyProClip.Controllers
                         {
                             Id = reportUserClip.Clip.Id,
                             Title = reportUserClip.Clip.Title,
-                            UserName = reportUserClip.User.Id,
-                            ThumbnailSrc = reportUserClip.Clip.ThumbnailUrl,
-                            VideoSrc = reportUserClip.Clip.VideoUrl,
+                            UserName = reportUserClip.User.UserName,
+                            ThumbnailSrc = String.Format("{0}://{1}{2}/Thumbnails/{3}", Request.Scheme, Request.Host, Request.PathBase, reportUserClip.Clip.ThumbnailUrl),
+                            VideoSrc = String.Format("{0}://{1}{2}/Videos/{3}", Request.Scheme, Request.Host, Request.PathBase, reportUserClip.Clip.VideoUrl),
                             Privacy = reportUserClip.Clip.Privacy,
                             UpdatedAt = reportUserClip.Clip.UpdatedAt,
                             CreatedAt = reportUserClip.Clip.CreatedAt,
