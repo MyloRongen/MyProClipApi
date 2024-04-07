@@ -40,7 +40,11 @@ namespace MyProClip_DAL.Repositories
         {
             try
             {
-                return await _dbContext.ReportUserClips.FindAsync(reportedClipId);
+                return await _dbContext.ReportUserClips
+                    .Include(ruc => ruc.User)
+                    .Include(ruc => ruc.Reporter)
+                    .Include(ruc => ruc.Clip)
+                    .FirstOrDefaultAsync(ruc => ruc.Id == reportedClipId);
             }
             catch (Exception ex)
             {

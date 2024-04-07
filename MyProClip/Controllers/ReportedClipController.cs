@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyProClip.Models;
 using MyProClip_BLL.Exceptions.Clip;
@@ -16,10 +17,14 @@ namespace MyProClip.Controllers
     public class ReportedClipController : ControllerBase
     {
         private readonly IReportedClipService _reportedClipService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IClipService _clipService;
 
-        public ReportedClipController(IReportedClipService reportedClipService)
+        public ReportedClipController(IReportedClipService reportedClipService, UserManager<ApplicationUser> userManager,  IClipService clipService)
         {
             _reportedClipService = reportedClipService;
+            _userManager = userManager;
+            _clipService = clipService;
         }
 
         [HttpGet("reportedClips")]
@@ -62,6 +67,75 @@ namespace MyProClip.Controllers
             catch (Exception ex)
             {
                 return NotFound($"Failed to get reported clips: {ex.Message}");
+            }
+        }
+
+        [HttpPost("acceptReport/{reportedClipId}")]
+        public async Task<IActionResult> AcceptReport(int reportedClipId)
+        {
+            try
+            {
+                ReportUserClip? reportedClip = await _reportedClipService.GetReportUserClipById(reportedClipId);
+                if (reportedClip == null)
+                {
+                    return NotFound("Reported clip was not found!");
+                }
+
+                ApplicationUser? user = await _userManager.FindByIdAsync(reportedClip.UserId);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                user.IsBanned = true;
+                user.LockoutEnd = DateTimeOffset.MaxValue;
+
+                var resultUpdateUser = await _userManager.UpdateAsync(user);
+
+                if (!resultUpdateUser.Succeeded)
+                {
+                    return NotFound("Failed to ban user!");
+                }
+
+                ApplicationUser? reporter = await _userManager.FindByIdAsync(reportedClip.UserId);
+                if (reporter == null)
+                {
+                    return NotFound("Reporter not found.");
+                }
+
+                reporter.Points = reporter.Points += 10;
+
+                var resultUpdateReporter = await _userManager.UpdateAsync(user);
+
+                if (!resultUpdateReporter.Succeeded)
+                {
+                    return NotFound("Failed to reward the reporter!");
+                }
+
+                await _reportedClipService.DeleteReportedClip(reportedClip);
+                await _clipService.DeleteClipAsync(reportedClip.Clip);
+
+                return Ok("Report accepted successfully");
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound($"Failed to delete a reported clip: {ex.Message}");
+            }
+            catch (UserReportClipException ex)
+            {
+                return NotFound($"Failed to delete a reported clip: {ex.Message}");
+            }
+            catch (UserManagerException ex)
+            {
+                return NotFound($"Failed to update username: {ex.Message}");
+            }
+            catch (ClipManagerException ex)
+            {
+                return NotFound($"Failed to retrieve user clips: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return NotFound($"Failed to accept report: {ex.Message}");
             }
         }
 
