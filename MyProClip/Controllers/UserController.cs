@@ -98,6 +98,12 @@ namespace MyProClip.Controllers
                     return NotFound("User not found.");
                 }
 
+                IdentityUser? reporter = await _userManager.FindByIdAsync(reportModel.ReporterId);
+                if (reporter == null)
+                {
+                    return NotFound("Reporter not found.");
+                }
+
 
                 Clip? clip = await _clipService.GetClipById(reportModel.ClipId);
 
@@ -110,6 +116,7 @@ namespace MyProClip.Controllers
                 ReportUserClip reportUserClip = new()
                 {
                     UserId = reportModel.UserId,
+                    ReporterId = reportModel.ReporterId,
                     ClipId = reportModel.ClipId,
                     Reason = reportModel.Reason
                 };
@@ -130,6 +137,19 @@ namespace MyProClip.Controllers
             {
                 return NotFound($"Failed to report user clip: {ex.Message}");
             }
+        }
+
+        [HttpGet("info")]
+        [Authorize]
+        public List<string>? GetInfo()
+        {
+            string? id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (id == null)
+            {
+                return null;
+            }
+
+            return User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(r => r.Value).ToList();
         }
 
         private string GetUserIdFromClaims()

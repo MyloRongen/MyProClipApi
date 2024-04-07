@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProClip.Models;
+using MyProClip_BLL.Exceptions.Clip;
+using MyProClip_BLL.Exceptions.User;
 using MyProClip_BLL.Interfaces.Services;
 using MyProClip_BLL.Models;
+using MyProClip_BLL.Services;
 
 namespace MyProClip.Controllers
 {
     [Route("api/")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class ReportedClipController : ControllerBase
     {
@@ -32,7 +35,10 @@ namespace MyProClip.Controllers
                 {
                     ReportedClipViewModel reportClipViewModel = new()
                     {
+                        Id = reportUserClip.Id,
                         UserId = reportUserClip.UserId,
+                        ReporterId = reportUserClip.ReporterId,
+                        ReporterName = reportUserClip.Reporter.UserName,
                         Username = reportUserClip.User.UserName,
                         Clip = new ClipViewModel()
                         {
@@ -56,6 +62,31 @@ namespace MyProClip.Controllers
             catch (Exception ex)
             {
                 return NotFound($"Failed to get reported clips: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("reportedClips/{reportedClipId}")]
+        public async Task<IActionResult> DeleteReportedClip(int reportedClipId)
+        {
+            try
+            {
+                ReportUserClip? reportUserClip = await _reportedClipService.GetReportUserClipById(reportedClipId);
+                if (reportUserClip == null)
+                {
+                    return NotFound("Reported clip was not found!");
+                }
+
+                await _reportedClipService.DeleteReportedClip(reportUserClip);
+
+                return Ok("Reported was declined!");
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound($"Failed to delete a reported clip: {ex.Message}");
+            }
+            catch (UserReportClipException ex)
+            {
+                return NotFound($"Failed to delete a reported clip: {ex.Message}");
             }
         }
     }

@@ -10,5 +10,7 @@ namespace MyProClip_BLL.Interfaces.Services
     public interface IReportedClipService
     {
         Task<List<ReportUserClip>> GetReportedClips();
+        Task<ReportUserClip?> GetReportUserClipById(int reportedClipId);
+        Task DeleteReportedClip(ReportUserClip reportUserClip);
     }
 }

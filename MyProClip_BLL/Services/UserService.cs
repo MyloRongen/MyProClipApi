@@ -38,6 +38,11 @@ namespace MyProClip_BLL.Services
                 throw new UserNotFoundException("User id does not exist");
             }
 
+            if (string.IsNullOrEmpty(reportUserClip.ReporterId))
+            {
+                throw new UserNotFoundException("Reporter id does not exist");
+            }
+
             if (reportUserClip.ClipId <= 0)
             {
                 throw new ClipNotFoundException("Clip does not exist");

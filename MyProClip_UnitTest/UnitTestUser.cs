@@ -72,7 +72,17 @@ namespace MyProClip_UnitTest
         public void UserReportClip_WithNullOrEmptyUserId_ThrowsUserNotFoundException()
         {
             // Arrange
-            ReportUserClip reportUserClip = new() { UserId = "", ClipId = 1, Reason = "Test reason" };
+            ReportUserClip reportUserClip = new() { UserId = "", ReporterId = "reporterId", ClipId = 1, Reason = "Test reason" };
+
+            // Assert & Act
+            Assert.ThrowsAsync<UserNotFoundException>(async () => await _userService.UserReportClip(reportUserClip));
+        }
+
+        [Test]
+        public void UserReportClip_WithNullOrEmptyReporterId_ThrowsUserNotFoundException()
+        {
+            // Arrange
+            ReportUserClip reportUserClip = new() { UserId = "userId", ReporterId = "", ClipId = 1, Reason = "Test reason" };
 
             // Assert & Act
             Assert.ThrowsAsync<UserNotFoundException>(async () => await _userService.UserReportClip(reportUserClip));
@@ -82,7 +92,7 @@ namespace MyProClip_UnitTest
         public void UserReportClip_WithInvalidClipId_ThrowsClipNotFoundException()
         {
             // Arrange
-            ReportUserClip reportUserClip = new() { UserId = "userId", ClipId = 0, Reason = "Test reason" };
+            ReportUserClip reportUserClip = new() { UserId = "userId", ReporterId = "reporterId", ClipId = 0, Reason = "Test reason" };
 
             // Assert & Act
             Assert.ThrowsAsync<ClipNotFoundException>(async () => await _userService.UserReportClip(reportUserClip));

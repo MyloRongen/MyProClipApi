@@ -14,6 +14,9 @@ namespace MyProClip_BLL.Models
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
 
+        public string ReporterId { get; set; }
+        public IdentityUser Reporter { get; set; }
+
         public int ClipId { get; set; }
         public Clip Clip { get; set; }
 

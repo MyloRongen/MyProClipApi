@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using MyProClip.Hubs;
 using MyProClip_BLL.Interfaces.Repositories;
 using MyProClip_BLL.Interfaces.Services;
+using MyProClip_BLL.Models;
 using MyProClip_BLL.Services;
 using MyProClip_DAL.Data;
 using MyProClip_DAL.Repositories;
@@ -44,7 +45,9 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddRoles<IdentityRole>()
+    .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -77,7 +80,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

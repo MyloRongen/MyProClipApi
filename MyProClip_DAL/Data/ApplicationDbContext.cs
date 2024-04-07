@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyProClip_DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
          base(options)

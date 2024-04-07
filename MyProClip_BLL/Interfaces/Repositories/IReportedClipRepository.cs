@@ -10,5 +10,7 @@ namespace MyProClip_BLL.Interfaces.Repositories
     public interface IReportedClipRepository
     {
         Task<List<ReportUserClip>> GetReportedClips();
+        Task<ReportUserClip?> GetReportUserClipById(int reportedClipId);
+        Task DeleteReportedClip(ReportUserClip reportUserClip);
     }
 }
